@@ -1,6 +1,12 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { setProjects } from "../redux/ProjectSlice";
+
 
 const CreateTask = () => {
+  const dispatch = useDispatch();
   const [task, setTask] = useState({
     projectName: "",
     number: "",
@@ -11,21 +17,40 @@ const CreateTask = () => {
     endDate: "",
     hours: "",
   });
+  const [assignedTo, setAssignedTo] = useState([]);
+  const [reviewer, setReviewer] = useState([]);
+
+
   const [users, setUsers] = useState([
-    { id: 1, username: "abhishek.pandit", name: "Abhishek Pandit", assigned: false, reviewer: false },
-    { id: 2, username: "ajin", name: "Ajin Thankachan", assigned: false, reviewer: false },
-    { id: 3, username: "anuj.garg", name: "Anuj Garg", assigned: false, reviewer: false },
-    { id: 4, username: "ashish.kumar", name: "Ashish Kumar", assigned: false, reviewer: false },
-    { id: 5, username: "vishal.bharti@erasmith.com", name: "Vishal Bharti", assigned: false, reviewer: false },
+    { id: 1, username: "anuj.garg", name: "Anuj Garg", assigned: false, reviewer: false },
+    { id: 2, username: "ashish.kumar", name: "Ashish Kumar", assigned: false, reviewer: false },
+    { id: 3, username: "vishal.bharti@erasmith.com", name: "Vishal Bharti", assigned: false, reviewer: false },
+    { id: 4, username: "abhishek.pandit", name: "Abhishek Pandit", assigned: false, reviewer: false },
+    { id: 5, username: "ajin", name: "Ajin Thankachan", assigned: false, reviewer: false },
     { id: 6, username: "ebin.jomon@erasmith.com", name: "Ebin Jomon", assigned: false, reviewer: false },
   ]);
 
-  const handleCheckboxChange = (id, field) => {
-    setUsers((prevUsers) =>
-      prevUsers.map((user) =>
-        user.id === id ? { ...user, [field]: !user[field] } : user
-      )
-    );
+  const handleAssignment = (userId, type) => {
+    if (type === "assigned") {
+      // If the user is already in assignedTo, remove them, else add them
+      setAssignedTo((prevAssigned) => {
+        if (prevAssigned.includes(userId)) {
+          return prevAssigned.filter((id) => id !== userId);
+        } else {
+          return [...prevAssigned, userId];
+        }
+      });
+    }
+    if (type === "reviewer") {
+      // If the user is already in reviewer, remove them, else add them
+      setReviewer((prevReviewer) => {
+        if (prevReviewer.includes(userId)) {
+          return prevReviewer.filter((id) => id !== userId);
+        } else {
+          return [...prevReviewer, userId];
+        }
+      });
+    }
   };
 
   const handleChange = (e) => {
@@ -37,16 +62,48 @@ const CreateTask = () => {
   };
 
   const handleSave = () => {
-    const randomNum = Math.floor(1000 + Math.random() * 9000); // Generate random 4-digit number
+    // Validation check
+    if (!task.projectName || !task.summary || !task.details || !task.status || !task.startDate || !task.endDate || !task.hours) {
+      toast.error("Please fill all the required fields!");
+      return; 
+    }
+  
+    if (isNaN(task.hours) || parseFloat(task.hours) <= 0) {
+      toast.error("Please enter a valid number for hours!");
+      return;
+    }
+  
+    // Validate date range (start date should be before end date)
+    const startDate = new Date(task.startDate);
+    const endDate = new Date(task.endDate);
+    if (startDate >= endDate) {
+      toast.error("End date should be after the start date!");
+      return;
+    }
+
+    if (assignedTo.length === 0) {
+      toast.error("Please assign at least one user to the task!");
+      return; 
+    }
+  
+    if (reviewer.length === 0) {
+      toast.error("Please assign at least one reviewer for the task!");
+      return; 
+    }
+  
+    const randomNum = Math.floor(1000 + Math.random() * 9000); 
     const savedTask = {
       ...task,
-      number: task.number || randomNum,
+      number: task.number || randomNum, 
+      assignedTo, 
+      reviewer, 
     };
-
+  
     console.log("Task saved:", savedTask);
-    // Add your save logic here (e.g., send to an API)
-    alert("Task saved successfully!");
+    dispatch(setProjects(savedTask));
+    toast.success("Task saved successfully!");
   };
+  
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg">
@@ -133,6 +190,8 @@ const CreateTask = () => {
         </select>
       </div>
 
+      <div className="text-xl font-bold mb-3 mt-3">Estimates</div>
+
       <div className="mb-4 flex gap-3">
         <div>
           <label className="block text-sm font-medium mb-2" htmlFor="startDate">
@@ -178,7 +237,7 @@ const CreateTask = () => {
 
       <div className="overflow-y-auto max-h-96">
         <p className="block text-sm font-medium mb-2">Assignments</p>
-        <table className="w-full text-left border-collapse">
+        {/* <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-gray-200">
               <th className="px-6 py-3 text-sm font-medium text-gray-700">User</th>
@@ -202,7 +261,7 @@ const CreateTask = () => {
                   <input
                     type="checkbox"
                     checked={user.assigned}
-                    onChange={() => handleCheckboxChange(user.id, "assigned")}
+                    onChange={() => handleAssignment(user.id, "assigned")}
                     className="h-4 w-4 text-blue-600 border-gray-300 rounded"
                   />
                 </td>
@@ -210,7 +269,47 @@ const CreateTask = () => {
                   <input
                     type="checkbox"
                     checked={user.reviewer}
-                    onChange={() => handleCheckboxChange(user.id, "reviewer")}
+                    onChange={() => handle(user.id, "reviewer")}
+                    className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table> */}
+        <table className="min-w-full">
+          <thead>
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Assigned</th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Reviewer</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.id} className="hover:bg-gray-50">
+                <td className="px-6 py-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-700">{user.username}</p>
+                      <p className="text-sm text-gray-500">{user.name}</p>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <input
+                    type="checkbox"
+                    checked={assignedTo.includes(user.id)}
+                    onChange={() => handleAssignment(user.id, "assigned")}
+                    className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                  />
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <input
+                    type="checkbox"
+                    checked={reviewer.includes(user.id)}
+                    onChange={() => handleAssignment(user.id, "reviewer")}
                     className="h-4 w-4 text-blue-600 border-gray-300 rounded"
                   />
                 </td>
@@ -226,6 +325,7 @@ const CreateTask = () => {
       >
         Save Task
       </button>
+      <ToastContainer autoClose={2500} hideProgressBar={true}/>
     </div>
   );
 };
