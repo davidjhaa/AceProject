@@ -26,7 +26,7 @@ const UserProfile = () => {
   return (
     <div className="flex min-h-screen overflow-hidden bg-gray-100">
       {/* Sidebar */}
-      <div className="w-64 fixed top-0 left-0 h-full z-10">
+      <div className="w-64 fixed top-0 left-0 h-full z-10 shadow-lg">
         <Sidebar />
       </div>
       <div className="flex-1 ml-64 bg-gray-100 p-3 overflow-y-auto">
@@ -35,7 +35,7 @@ const UserProfile = () => {
           <h2 className="text-xl font-bold mb-8">Edit Profile</h2>
 
           {/* Profile Details */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-600">
                 Your Name
@@ -45,7 +45,7 @@ const UserProfile = () => {
                 name="name"
                 value={form.name}
                 onChange={handleChange}
-                className="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="w-full border-gray-300 border rounded-lg shadow-md px-3 py-2 focus:border-blue-500 focus:ring-blue-500"
               />
 
               <label className="block mt-4 mb-2 text-sm font-medium text-gray-600">
@@ -55,7 +55,7 @@ const UserProfile = () => {
                 name="location"
                 value={form.location}
                 onChange={handleChange}
-                className="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-lg shadow-md px-3 py-2 focus:border-blue-500 focus:ring-blue-500"
               >
                 <option value="United States">United States</option>
                 <option value="Canada">Canada</option>
@@ -70,7 +70,7 @@ const UserProfile = () => {
                 name="email"
                 value={form.email}
                 onChange={handleChange}
-                className="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-lg shadow-md px-3 py-2 focus:border-blue-500 focus:ring-blue-500"
               />
 
               <label className="block mt-4 mb-2 text-sm font-medium text-gray-600">
@@ -81,7 +81,7 @@ const UserProfile = () => {
                 name="phone"
                 value={form.phone}
                 onChange={handleChange}
-                className="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-lg shadow-md px-3 py-2 focus:border-blue-500 focus:ring-blue-500"
               />
 
               <label className="block mt-4 mb-2 text-sm font-medium text-gray-600">
@@ -91,7 +91,7 @@ const UserProfile = () => {
                 name="address"
                 value={form.address}
                 onChange={handleChange}
-                className="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-lg shadow-md px-3 py-2 focus:border-blue-500 focus:ring-blue-500"
               />
             </div>
 
@@ -106,7 +106,7 @@ const UserProfile = () => {
                 name="currentPassword"
                 value={form.currentPassword}
                 onChange={handleChange}
-                className="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-lg shadow-md px-3 py-2 focus:border-blue-500 focus:ring-blue-500"
               />
 
               <label className="block mt-4 mb-2 text-sm font-medium text-gray-600">
@@ -117,7 +117,7 @@ const UserProfile = () => {
                 name="newPassword"
                 value={form.newPassword}
                 onChange={handleChange}
-                className="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-lg shadow-md px-3 py-2 focus:border-blue-500 focus:ring-blue-500"
               />
 
               <label className="block mt-4 mb-2 text-sm font-medium text-gray-600">
@@ -128,17 +128,17 @@ const UserProfile = () => {
                 name="confirmPassword"
                 value={form.confirmPassword}
                 onChange={handleChange}
-                className="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-lg shadow-md px-3 py-2 focus:border-blue-500 focus:ring-blue-500"
               />
 
             </div>
           </div>
 
           {/* Save Button */}
-          <div className="mt-8">
+          <div className="mt-8 flex justify-center">
             <button
               onClick={handleSave}
-              className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
+              className="w-auto bg-blue-500 text-white py-2 px-11 rounded-lg hover:bg-blue-600"
             >
               Save
             </button>

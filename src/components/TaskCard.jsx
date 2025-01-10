@@ -6,16 +6,24 @@ const TaskCard = ({ task }) => {
   return (
     <div className="max-w-sm rounded-lg shadow-lg bg-white overflow-hidden border border-gray-200">
       <div className="p-4">
-        <h3 className="text-xl font-semibold text-gray-800">{projectName}</h3>
-        <p className="text-sm text-gray-600 mt-2">{summary}</p>
-
-        {/* Task Status */}
-        <div className={`mt-3 px-3 py-1 inline-block text-sm font-medium rounded-full 
+        <div className='flex justify-between items-center'>
+          <h3 className="text-xl font-bold text-gray-800">{projectName}</h3>
+          <div className={`mt-3 px-3 py-1 inline-block text-sm font-medium rounded-full 
           ${status === 'todo' ? 'bg-yellow-200 text-yellow-800' : 
             status === 'inprogress' ? 'bg-blue-200 text-blue-800' :
             status === 'completed' ? 'bg-green-200 text-green-800' : 'bg-gray-200 text-gray-800'}`}>
           {status}
         </div>
+        </div>
+        <p className="text-sm text-gray-600 mt-2">{summary}</p>
+
+        {/* Task Status */}
+        {/* <div className={`mt-3 px-3 py-1 inline-block text-sm font-medium rounded-full 
+          ${status === 'todo' ? 'bg-yellow-200 text-yellow-800' : 
+            status === 'inprogress' ? 'bg-blue-200 text-blue-800' :
+            status === 'completed' ? 'bg-green-200 text-green-800' : 'bg-gray-200 text-gray-800'}`}>
+          {status}
+        </div> */}
 
         {/* Assigned Users */}
         <div className="mt-3">

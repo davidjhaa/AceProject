@@ -3,67 +3,64 @@ import Sidebar from "./Sidebar";
 
 const Overview = () => {
     return (
-        <>
-            <div className="w-64 fixed top-0 left-0 h-full z-10">
-                <Sidebar />
+        <div className="bg-gray-100">
+            <div className="w-60 fixed top-0 left-0 h-full z-10 shadow-lg">
+                <Sidebar selected= {"overview"}/>
             </div>
-            <div className="flex min-h-screen overflow-hidden bg-gray-100">
-                <div className="w-64 fixed top-0 left-0 h-full z-10">
-                    <Sidebar />
-                </div>
-                <div className="flex-1 ml-64 bg-gray-100 p-3 overflow-y-auto">
-                    <h1 className="text-2xl font-bold text-gray-800 mb-6">Overview</h1>
+            <div className="bg-gray-100 p-6 flex-1 ml-64 overflow-y-auto min-h-screen">
+                <div className="">
+                    <h1 className="text-2xl font-bold mb-6">Overview</h1>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {/* Task Summary */}
-                        <div className="bg-white shadow-md rounded-lg p-4">
-                            <h2 className="text-lg font-bold text-gray-700 mb-4">Task Overview</h2>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="bg-blue-100 text-blue-700 p-3 rounded-lg text-center">
-                                    <p className="text-3xl font-bold">0</p>
-                                    <p>Assigned</p>
-                                </div>
-                                <div className="bg-green-100 text-green-700 p-3 rounded-lg text-center">
-                                    <p className="text-3xl font-bold">0</p>
-                                    <p>As Reviewer</p>
-                                </div>
-                                <div className="bg-yellow-100 text-yellow-700 p-3 rounded-lg text-center">
-                                    <p className="text-3xl font-bold">0</p>
-                                    <p>Created</p>
-                                </div>
-                                <div className="bg-red-100 text-red-700 p-3 rounded-lg text-center">
-                                    <p className="text-3xl font-bold">0</p>
-                                    <p>Overdue</p>
-                                </div>
-                                <div className="bg-purple-100 text-purple-700 p-3 rounded-lg text-center">
-                                    <p className="text-3xl font-bold">0</p>
-                                    <p>Ready to Start</p>
-                                </div>
-                                <div className="bg-gray-100 text-gray-700 p-3 rounded-lg text-center">
-                                    <p className="text-3xl font-bold">0</p>
-                                    <p>Start Soon</p>
+                    {/* Task  Section */}
+                    <div className="grid grid-cols-4 gap-4 mb-6">
+                        {[
+                            { label: "Assigned", count: 8, color: "bg-orange-100", icon: "📄" },
+                            { label: "As Reviewer", count: 2, color: "bg-blue-100", icon: "👀" },
+                            { label: "Assigned or as Reviewer", count: 10, color: "bg-purple-100", icon: "📎" },
+                            { label: "Marked", count: 4, color: "bg-yellow-100", icon: "⭐" },
+                        ].map((item, index) => (
+                            <div
+                                key={index}
+                                className={`${item.color} rounded-lg shadow-md p-4 flex items-center gap-4`}
+                            >
+                                <span className="text-3xl">{item.icon}</span>
+                                <div>
+                                    <h3 className="text-lg font-medium">{item.label}</h3>
+                                    <p className="text-2xl font-bold">{item.count}</p>
                                 </div>
                             </div>
+                        ))}
+                    </div>
+
+                    {/* Time and Project Overview */}
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="bg-white rounded-lg shadow-md p-4">
+                            <h3 className="text-lg font-medium mb-2">My Time</h3>
+                            <div className="flex items-center justify-between">
+                                <span className="text-xl">⏰ Time Clock</span>
+                                <span className="text-lg font-bold bg-gray-200 py-1 px-3 rounded-md">
+                                    00:00:00
+                                </span>
+                            </div>
+                            <p className="text-gray-600 mt-2">Total Hours for this Week: <span className="font-bold">0</span></p>
                         </div>
-
-                        {/* Project Summary */}
-                        <div className="bg-white shadow-md rounded-lg p-4">
-                            <h2 className="text-lg font-bold text-gray-700 mb-4">My Projects</h2>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="bg-indigo-100 text-indigo-700 p-3 rounded-lg text-center">
-                                    <p className="text-3xl font-bold">1</p>
-                                    <p>Assigned</p>
-                                </div>
-                                <div className="bg-pink-100 text-pink-700 p-3 rounded-lg text-center">
-                                    <p className="text-3xl font-bold">0</p>
-                                    <p>Marked</p>
-                                </div>
-                            </div>
+                        <div className="bg-white rounded-lg shadow-md p-4">
+                            <h3 className="text-lg font-medium mb-2">My Projects</h3>
+                            <ul className="list-none space-y-2">
+                                <li className="flex justify-between">
+                                    <span>📂 Assigned</span>
+                                    <span className="font-bold">8</span>
+                                </li>
+                                <li className="flex justify-between">
+                                    <span>⭐ Marked</span>
+                                    <span className="font-bold">4</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

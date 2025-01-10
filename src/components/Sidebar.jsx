@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { CiHome } from "react-icons/ci";
 import { FaRegFolder } from "react-icons/fa";
@@ -7,10 +7,18 @@ import { HiOutlineLogout } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import AddProject from "./AddProject";
 
-const Sidebar = () => {
+const Sidebar = ({ selected }) => {
     const navigate = useNavigate();
     const [openAddProject, setOpenAddProject] = useState(false);
-    const projects = useSelector((state) => state.projects.projects);
+    const defaultProjects = ["HyphenView", "HyphenMon", "cyber Ark", "Securonix"];
+
+    const reduxProjects = useSelector((state) => state.projects.projects);
+    const [projects, setProjects] = useState(defaultProjects);
+
+    useEffect(() => {
+        setProjects([...defaultProjects, ...reduxProjects]);
+    }, [reduxProjects]);
+
     const [showProjects, setShowProjects] = useState(false);
 
     const handleLogout = () => {
@@ -26,16 +34,16 @@ const Sidebar = () => {
                         onClick={() => navigate('/profile')}
                         className="w-[40px] h-[40px] rounded-lg bg-purple-500 text-white font-bold text-center"
                     >
-                        D
+                        V
                     </button>
                     <div>
-                        <h4 className="text-lg font-semibold">David Jha</h4>
+                        <h4 className="text-lg font-semibold">Vishal</h4>
                     </div>
                 </div>
 
                 <button
                     onClick={() => setOpenAddProject(!openAddProject)}
-                    className="w-full bg-gray-200 text-gray-700 py-2 px-4 rounded-lg flex items-center mb-6"
+                    className="w-full bg-gray-200 text-gray-1700 py-2 px-4 rounded-lg flex items-center mb-6"
                 >
                     + Add Project
                 </button>
@@ -44,14 +52,14 @@ const Sidebar = () => {
                     <ul>
                         <li
                             onClick={() => navigate("/overview")}
-                            className="flex items-center py-2 px-4 mb-2 hover:bg-gray-200 rounded-lg cursor-pointer"
+                            className={`flex items-center py-2 px-4 mb-2 hover:bg-gray-200 rounded-lg cursor-pointer ${selected === "overview" ? "bg-gray-200" : ""}`}
                         >
                             <CiHome size={22} className="mr-3" />
                             <span className="text-gray-700 hover:text-gray-900">Overview</span>
                         </li>
                         <li
                             onClick={() => navigate("/dashboard")}
-                            className="flex items-center mb-2 py-2 px-4 rounded-lg hover:bg-gray-200 cursor-pointer"
+                            className={`flex items-center mb-2 py-2 px-4 rounded-lg hover:bg-gray-200 cursor-pointer ${selected === "dashboard" ? "bg-gray-200" : ""}`}
                         >
                             <LuLayoutDashboard size={22} className="mr-3" />
                             <span className="text-gray-700 hover:text-gray-900">Dashboard</span>
@@ -66,21 +74,15 @@ const Sidebar = () => {
                     </ul>
                 </nav>
 
-                <div className="ml-9 mt-[-4px] rounded-lg max-h-44 overflow-y-auto">
+                <div className="ml-9 mt-[-8px] rounded-lg max-h-44 overflow-y-auto">
                     {
-                        projects.length > 0 ? (
-                            // Render the projects if there are any
-                            projects.map((project, idx) => (
-                                <div key={idx} className="bg-gray-200 py-2 px-4 hover:bg-slate-800 hover:text-white cursor-pointer rounded-md">
-                                    {project}
-                                </div>
-                            ))
-                        ) : (
-                            // If no projects exist, show an empty state message
-                            <div className="text-center text-gray-500 py-4">
-                                No projects available.
+                        showProjects && projects.length > 0 &&
+                        projects.map((project, idx) => (
+                            <div key={idx} className="bg-gray-200 py-2 px-4 hover:bg-slate-800 hover:text-white cursor-pointer ">
+                                {project}
                             </div>
-                        )
+                        ))
+
                     }
                 </div>
 

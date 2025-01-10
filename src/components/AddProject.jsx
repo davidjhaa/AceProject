@@ -36,7 +36,7 @@ function AddProject({ setOpenAddProject }) {
                             className="w-full border border-red-600 text-red-600 py-2 rounded-md bg-transparent text-sm font-semibold tracking-wide cursor-pointer"
                             onClick={() => setOpenAddProject(false)}
                         >
-                            Cancel
+                            close
                         </button>
                         <button
                             className="w-full text-white bg-teal-600 py-2 rounded-md text-sm font-semibold tracking-wide cursor-pointer"
